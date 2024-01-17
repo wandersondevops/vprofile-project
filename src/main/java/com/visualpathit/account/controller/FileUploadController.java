@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,11 +31,11 @@ public class FileUploadController {
 	/**
 	 * Upload single file using Spring Controller
 	 */
-	@RequestMapping(value = { "/upload"} , method = RequestMethod.GET)
+	@GetMapping(value = { "/upload"} )
     public final String upload(final Model model) {
         return "upload";
     }
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	@PostMapping(value = "/uploadFile")
 	public @ResponseBody
 	String uploadFileHandler(@RequestParam("name") String name,@RequestParam("userName") String userName,
 			@RequestParam("file") MultipartFile file) {

@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 /**{@author waheedk}*/
@@ -34,13 +36,13 @@ public class UserController {
     private ProducerService producerService;
     
     /** {@inheritDoc} */
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @GetMapping(value = "/registration")
     public final String registration(final Model model) {
         model.addAttribute("userForm", new User());
              	return "registration";
       }
     /** {@inheritDoc} */
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    @PostMapping(value = "/registration")
     public final String registration(final @ModelAttribute("userForm") User userForm, 
     	final BindingResult bindingResult, final Model model) {
     	
@@ -56,7 +58,7 @@ public class UserController {
         return "redirect:/welcome";
     }
     /** {@inheritDoc} */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping(value = "/login")
     public final String login(final Model model, final String error, final String logout) {
         System.out.println("Model data"+model.toString());
     	if (error != null){
@@ -68,16 +70,16 @@ public class UserController {
         return "login";
     }
     /** {@inheritDoc} */
-    @RequestMapping(value = { "/", "/welcome"}, method = RequestMethod.GET)
+    @GetMapping(value = { "/", "/welcome"})
     public final String welcome(final Model model) {
         return "welcome";
     }
     /** {@inheritDoc} */
-    @RequestMapping(value = { "/index"} , method = RequestMethod.GET)
+    @GetMapping(value = { "/index"} )
     public final String indexHome(final Model model) {
         return "index_home";
     }
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @GetMapping(value = "/users")
     public String getAllUsers(Model model)
     {	
    
@@ -88,7 +90,7 @@ public class UserController {
         return "userList";
     }
     
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/users/{id}")
     public String getOneUser(@PathVariable(value="id") String id,Model model)
     {	
     	String Result ="";
@@ -123,14 +125,14 @@ public class UserController {
     }
     
     /** {@inheritDoc} */
-    @RequestMapping(value = { "/user/{username}"} , method = RequestMethod.GET)
+    @GetMapping(value = { "/user/{username}"} )
     public final String userUpdate(@PathVariable(value="username") String username,final Model model) {
     	User user = userService.findByUsername(username); 
     	System.out.println("User Data:::" + user);
     	model.addAttribute("user", user);
     	return "userUpdate";
     }
-    @RequestMapping(value = { "/user/{username}"} , method = RequestMethod.POST)
+    @PostMapping(value = { "/user/{username}"} )
     public final String userUpdateProfile(@PathVariable(value="username") String username,final @ModelAttribute("user") User userForm,final Model model) {
     	User user = userService.findByUsername(username);
     	user.setUsername(userForm.getUsername());

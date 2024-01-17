@@ -16,6 +16,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +35,7 @@ public class ElasticSearchController {
 	@Autowired
     private UserService userService;
     
-    @RequestMapping(value="/user/elasticsearch", method=RequestMethod.GET)
+    @GetMapping(value="/user/elasticsearch")
     public String insert(final Model model) throws IOException {
     	List<User> users = userService.getList();
     	//contextMapping();
@@ -69,7 +70,7 @@ public class ElasticSearchController {
         		
     }
 
-    @RequestMapping(value="/rest/users/view/{id}", method=RequestMethod.GET)
+    @GetMapping(value="/rest/users/view/{id}")
     public String  view(@PathVariable final String id,final Model model) {
         GetResponse getResponse = ElasticsearchUtil.trannsportClient().prepareGet("users", "user", id).get();
         System.out.println(getResponse.getSource());
@@ -91,7 +92,7 @@ public class ElasticSearchController {
         return tagList;
     }*/
 
-    @RequestMapping(value="/rest/users/update/{id}", method=RequestMethod.GET)
+    @GetMapping(value="/rest/users/update/{id}")
     public String update(@PathVariable final String id,final Model model) throws IOException {
 
         UpdateRequest updateRequest = new UpdateRequest();
@@ -112,7 +113,7 @@ public class ElasticSearchController {
         }
         return "elasticeSearchRes";
     }
-    @RequestMapping(value="/rest/users/delete/{id}", method=RequestMethod.GET)
+    @GetMapping(value="/rest/users/delete/{id}")
     public String delete(@PathVariable final String id,final Model model) {
 
         DeleteResponse deleteResponse =ElasticsearchUtil.trannsportClient().prepareDelete("employee", "id", id).get();
